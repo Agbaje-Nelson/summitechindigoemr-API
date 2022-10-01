@@ -1,0 +1,224 @@
+{
+	"id": "4261e580-2af6-41ec-9097-04f9b743ca39",
+	"name": "Indigoemr",
+	"timestamp": "2022-09-30T19:39:15.177Z",
+	"collection_id": "6020076-8079cb4c-a30d-44a5-9de5-fc1bd747d39c",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 19,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+			"name": "Login",
+			"time": 170,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {
+				"Verify login with valid credential returns a successful response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Response Code  is 200 for a request with valid login credential ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify all user's data is retrieved on successful login and not it's empty": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify login with invalid credential returns failed response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401 for a request with invalid login credentials": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 400 for a request with empty credentials": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Login with Invalid Email returns failed response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401  for a request with invalid email": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Login with Invalid password returns failed response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401 for a request with invalid Password ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401 for a request with empty password": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Login with empty password returns failed response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 400 for a request with empty email ": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				952,
+				393,
+				173,
+				336,
+				494,
+				503,
+				341,
+				170
+			],
+			"allTests": [
+				{
+					"Verify login with valid credential returns a successful response message ": true,
+					"Verify Response Code  is 200 for a request with valid login credential ": true,
+					"Verify all user's data is retrieved on successful login and not it's empty": true
+				},
+				{
+					"Verify login with invalid credential returns failed response message ": true,
+					"Verify  Response Code  is 401 for a request with invalid login credentials": true
+				},
+				{
+					"Verify  Response Code  is 400 for a request with empty credentials": true
+				},
+				{
+					"Verify Login with Invalid Email returns failed response message ": true,
+					"Verify  Response Code  is 401  for a request with invalid email": true
+				},
+				{
+					"Verify Login with Invalid password returns failed response message ": true,
+					"Verify  Response Code  is 401 for a request with invalid Password ": true
+				},
+				{
+					"Verify  Response Code  is 401 for a request with empty password": true,
+					"Verify Login with empty password returns failed response message ": true
+				},
+				{
+					"Verify  Response Code  is 400 for a request with empty email ": true
+				},
+				{}
+			]
+		},
+		{
+			"id": "adc0f9b8-2610-46ce-b7e9-f918d3e65749",
+			"name": "Logout",
+			"time": 153,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Verify Logout with InvalidUser returns failed logout response message ": true,
+				"Verify  Response Code  is 401 to logout a user that does not exist": true
+			},
+			"testPassFailCounts": {
+				"Verify logout with a logged on user credential returns a sucessful logout response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Response Code  is 200 for a request to logout a logged on user": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Logout with an already logged out user returns a failed logout response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401 for a request to logout an already logged out user": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify Logout with InvalidUser returns failed logout response message ": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify  Response Code  is 401 to logout a user that does not exist": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				386,
+				142,
+				153
+			],
+			"allTests": [
+				{
+					"Verify logout with a logged on user credential returns a sucessful logout response message ": true,
+					"Verify Response Code  is 200 for a request to logout a logged on user": true
+				},
+				{
+					"Verify Logout with an already logged out user returns a failed logout response message ": true,
+					"Verify  Response Code  is 401 for a request to logout an already logged out user": true
+				},
+				{
+					"Verify Logout with InvalidUser returns failed logout response message ": true,
+					"Verify  Response Code  is 401 to logout a user that does not exist": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 4043,
+	"collection": {
+		"requests": [
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "1f1934ae-82e6-44a7-877f-078e8b6c61f3",
+				"method": "POST"
+			},
+			{
+				"id": "adc0f9b8-2610-46ce-b7e9-f918d3e65749",
+				"method": "POST"
+			},
+			{
+				"id": "adc0f9b8-2610-46ce-b7e9-f918d3e65749",
+				"method": "POST"
+			},
+			{
+				"id": "adc0f9b8-2610-46ce-b7e9-f918d3e65749",
+				"method": "POST"
+			}
+		]
+	}
+}

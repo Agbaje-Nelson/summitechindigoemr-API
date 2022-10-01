@@ -1,0 +1,441 @@
+{
+	"info": {
+		"_postman_id": "8079cb4c-a30d-44a5-9de5-fc1bd747d39c",
+		"name": "Indigoemr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6020076"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let testCaseSet =  pm.collectionVariables.get (\"testCaseSet\");",
+							"let email = pm.collectionVariables.get (\"email\");",
+							"let password = pm.collectionVariables.get (\"password\");",
+							"",
+							"if (!testCaseSet || testCaseSet.length == 0) {",
+							"    testCaseSet = [\"validCredential\",\"inValidCredential\",\"emptyCredentials\",\"inValidEmail\",\"inValidPassword\",\"emptyPassword\",\"emptyEmail\",\"repeatedWrongPassword\"]",
+							"    }",
+							"let currentTestCase = testCaseSet.shift();",
+							"pm.collectionVariables.set(\"testCase\", currentTestCase);",
+							"pm.collectionVariables.set(\"testCaseSet\", testCaseSet);",
+							"",
+							"let testCase = pm.collectionVariables.get(\"testCase\");",
+							"",
+							"",
+							"switch (testCase) {",
+							"    case \"validCredential\" : ",
+							"        pm.collectionVariables.set (\"currentEmail\",email);",
+							"        pm.collectionVariables.set (\"currentPassword\",password);",
+							"    break;",
+							"    ",
+							"    case \"inValidCredential\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",pm.variables.replaceIn(\"{{$randomEmail}}\"));",
+							"        pm.collectionVariables.set (\"currentPassword\",pm.variables.replaceIn(\"{{$randomPassword}}\"));",
+							"    break;",
+							"",
+							"    case \"emptyCredentials\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",null);",
+							"        pm.collectionVariables.set (\"currentPassword\",null);",
+							"    break;",
+							"",
+							"    case \"inValidEmail\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",pm.variables.replaceIn(\"{{$randomEmail}}\"));",
+							"        pm.collectionVariables.set (\"currentPassword\",password);",
+							"    break;",
+							"",
+							"    case \"inValidPassword\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",email);",
+							"        pm.collectionVariables.set (\"currentPassword\",pm.variables.replaceIn(\"{{$randomPassword}}\"));",
+							"    break;",
+							"",
+							"    case \"emptyPassword\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",email);",
+							"        pm.collectionVariables.set (\"currentPassword\",null);",
+							"    break;",
+							"",
+							"    case \"emptyEmail\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",null);",
+							"        pm.collectionVariables.set (\"currentPassword\",password);",
+							"    break;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const testCaseSet = pm.collectionVariables.get(\"testCaseSet\");",
+							"const testCase = pm.collectionVariables.get(\"testCase\")",
+							"",
+							"if (testCaseSet && testCaseSet.length > 0) {",
+							"    postman.setNextRequest(\"Login\")",
+							"} else {",
+							"",
+							"    postman.setNextRequest(\"Logout\")",
+							"   ",
+							"}",
+							"",
+							"switch (testCase) {",
+							"",
+							"    case \"validCredential\" :",
+							"",
+							"        pm.test(\"Verify login with valid credential returns a successful response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(\"true\");",
+							"            pm.expect(res.message).to.eql(\"Successful\");",
+							"        })",
+							"",
+							"        pm.test(\"Verify Response Code  is 200 for a request with valid login credential \",()=>{",
+							"            pm.response.to.have.status(200)",
+							"        })",
+							"    ",
+							"        pm.test(\"Verify all user's data is retrieved on successful login and not it's empty\",()=>{",
+							"            var res = pm.response.json();",
+							"            var data = res.data;",
+							"            var email = pm.collectionVariables.get(\"email\");",
+							"            pm.expect(data._id).is.not.null.and.empty;",
+							"            pm.expect(data.name).to.be.eql(\"John Doe\");",
+							"            pm.expect(data.email).to.be.eql(email);",
+							"            pm.expect(data.currentLocation.permissions).is.not.null.and.empty ; ",
+							"            pm.expect(data.currentLocation.name).is.not.null.and.empty  ;",
+							"            pm.expect(data.currentLocation.staff).is.not.null.and.empty  ;",
+							"            pm.expect(data.currentLocation.staff.name).is.not.null.and.empty ;",
+							"            pm.expect(data.currentLocation.staff.name).to.be.a(\"string\") ;",
+							"            pm.expect(data.currentLocation.sections).is.not.null.and.empty ;",
+							"          ",
+							"        })",
+							"",
+							"    break;",
+							"",
+							"    case \"inValidCredential\" :",
+							"",
+							"        pm.test(\"Verify login with invalid credential returns failed response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"Invalid email or password\");",
+							"        })",
+							"",
+							"        pm.test(\"Verify  Response Code  is 401 for a request with invalid login credentials\",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"",
+							"",
+							"    break;",
+							"",
+							"    case \"emptyCredentials\" :",
+							"        pm.test(\"Verify  Response Code  is 400 for a request with empty credentials\",()=>{",
+							"            pm.response.to.have.status(400)",
+							"        })",
+							"    break;",
+							"",
+							"    case \"inValidEmail\" :",
+							"",
+							"        pm.test(\"Verify Login with Invalid Email returns failed response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"Invalid email or password\");",
+							"        })",
+							"        ",
+							"        pm.test(\"Verify  Response Code  is 401  for a request with invalid email\",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"",
+							"",
+							"    break;",
+							"",
+							"    case \"inValidPassword\" :",
+							"",
+							"        pm.test(\"Verify Login with Invalid password returns failed response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"Invalid email or password\");",
+							"        })",
+							"",
+							"        pm.test(\"Verify  Response Code  is 401 for a request with invalid Password \",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"    break;",
+							"",
+							"    case \"emptyPassword\" :",
+							"        pm.test(\"Verify  Response Code  is 401 for a request with empty password\",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"",
+							"        pm.test(\"Verify Login with empty password returns failed response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"Invalid email or password\");",
+							"        })",
+							"    break;",
+							"",
+							"    case \"emptyEmail\" :",
+							"        pm.test(\"Verify  Response Code  is 400 for a request with empty email \",()=>{",
+							"            pm.response.to.have.status(400)",
+							"        })",
+							"",
+							"    break;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{currentEmail}}\",\n    \"password\": \"{{currentPassword}}\"\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v2/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let testCaseSet =  pm.collectionVariables.get (\"testCaseSet\");",
+							"let email = pm.collectionVariables.get (\"email\");",
+							"let password = pm.collectionVariables.get (\"password\");",
+							"",
+							"if (!testCaseSet || testCaseSet.length == 0) {",
+							"    testCaseSet = [\"loggedOnUser\",\"loggedOutUser\",\"invalidUser\"]",
+							"    }",
+							"let currentTestCase = testCaseSet.shift();",
+							"pm.collectionVariables.set(\"testCase\", currentTestCase);",
+							"pm.collectionVariables.set(\"testCaseSet\", testCaseSet);",
+							"",
+							"let testCase = pm.collectionVariables.get(\"testCase\");",
+							"",
+							"",
+							"switch (testCase) {",
+							"",
+							"    case \"loggedOnUser\" : ",
+							"",
+							"        let baseUrl = pm.collectionVariables.get('baseUrl')",
+							"        let options = { ",
+							"            method: 'POST',",
+							"            url: baseUrl +\"/v2/login\",",
+							"            header : {",
+							"                \"Content-Type\":\"application/json\"",
+							"                },",
+							"            body : {",
+							"                mode : \"raw\",",
+							"                raw : {",
+							"                    \"email\" : email,",
+							"                    \"password\" : password",
+							"                }",
+							"        }};",
+							"        console.log(options.url)",
+							"        pm.sendRequest(options, function (err, response) {",
+							"            try{",
+							"                pm.collectionVariables.set (\"currentEmail\",email);",
+							"                pm.collectionVariables.set (\"currentPassword\",password);",
+							"            }",
+							"            catch (err) {",
+							"                console.log(err)",
+							"            }",
+							"        });",
+							"        ",
+							"",
+							"    break;",
+							"    ",
+							"    case \"loggedOutUser\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",email);",
+							"        pm.collectionVariables.set (\"currentPassword\",password);",
+							"",
+							"    break;",
+							"",
+							"    case \"invalidUser\" :",
+							"        pm.collectionVariables.set (\"currentEmail\",pm.variables.replaceIn(\"{{$randomEmail}}\"));",
+							"        pm.collectionVariables.set (\"currentPassword\",pm.variables.replaceIn(\"{{$randomPassword}}\"));",
+							"    break;",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const testCaseSet = pm.collectionVariables.get(\"testCaseSet\");",
+							"const testCase = pm.collectionVariables.get(\"testCase\")",
+							"",
+							"if (testCaseSet && testCaseSet.length > 0) {",
+							"    postman.setNextRequest(\"Logout\")",
+							"} else {",
+							"",
+							"    postman.setNextRequest(\"\")",
+							"   ",
+							"}",
+							"",
+							"switch (testCase) {",
+							"",
+							"    case \"loggedOnUser\" :",
+							"",
+							"        pm.test(\"Verify logout with a logged on user credential returns a sucessful logout response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(\"true\");",
+							"            pm.expect(res.message).to.eql(\"Successful\");",
+							"        })",
+							"              ",
+							"        pm.test(\"Verify Response Code  is 200 for a request to logout a logged on user\",()=>{",
+							"            pm.response.to.have.status(200)",
+							"        })",
+							"    ",
+							"",
+							"    break;",
+							"",
+							"    case \"loggedOutUser\" :",
+							"",
+							"        pm.test(\"Verify Logout with an already logged out user returns a failed logout response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"You are not logged in\");",
+							"        })",
+							"        ",
+							"        pm.test(\"Verify  Response Code  is 401 for a request to logout an already logged out user\",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"",
+							"    break;",
+							"",
+							"    case \"invalidUser\" :",
+							"",
+							"        pm.test(\"Verify Logout with InvalidUser returns failed logout response message \",()=>{",
+							"            var res = pm.response.json();",
+							"            pm.expect(res.status).to.eql(false);",
+							"            pm.expect(res.message).to.eql(\"You are not logged in\");",
+							"        })",
+							"",
+							"        pm.test(\"Verify  Response Code  is 401 to logout a user that does not exist\",()=>{",
+							"            pm.response.to.have.status(401)",
+							"        })",
+							"    break;",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{currentEmail}}\",\n    \"password\": \"{{currentPassword}}\"\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v2/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "testOptionSet",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "test-qa@inboxkitten.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "qaV9ult!x",
+			"type": "string"
+		},
+		{
+			"key": "testOption",
+			"value": ""
+		},
+		{
+			"key": "currentEmail",
+			"value": ""
+		},
+		{
+			"key": "currentPassword",
+			"value": ""
+		},
+		{
+			"key": "testCase",
+			"value": ""
+		},
+		{
+			"key": "testCaseSet",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://staging-api.indigoemr.com",
+			"type": "string"
+		}
+	]
+}
