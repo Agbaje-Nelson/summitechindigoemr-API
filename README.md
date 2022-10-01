@@ -1,3 +1,3 @@
 # summitechindigoemr-API
 
-## Import collection to Postman to run automated test.
+#### Import collection to Postman to run automated test.
